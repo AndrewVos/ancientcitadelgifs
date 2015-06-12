@@ -122,6 +122,7 @@ func fetchHandler(w http.ResponseWriter, r *http.Request) {
 	videoExtension := r.URL.Query().Get("t")
 	if videoExtension != "webm" && videoExtension != "mp4" {
 		serveError(w, "please choose either mp4 or web extension")
+		return
 	}
 
 	gifPath, err := downloadFile(gifURL)
@@ -141,6 +142,7 @@ func fetchHandler(w http.ResponseWriter, r *http.Request) {
 func serveError(w http.ResponseWriter, e string) {
 	b, _ := json.Marshal(JSONError{Error: e})
 	w.Header().Set("Content-Type", "application/json")
+	log.Println("error: " + e)
 	http.Error(w, string(b), http.StatusInternalServerError)
 }
 
