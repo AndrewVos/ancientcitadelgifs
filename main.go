@@ -15,7 +15,6 @@ import (
 	"os/exec"
 
 	"github.com/gorilla/mux"
-	_ "github.com/lib/pq"
 )
 
 type JSONError struct {
