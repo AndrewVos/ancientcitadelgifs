@@ -34,6 +34,7 @@ func main() {
 
 	r := mux.NewRouter()
 
+	r.Handle("/", http.HandlerFunc(rootHandler))
 	r.Handle("/upload", http.HandlerFunc(uploadHandler))
 	r.Handle("/fetch", http.HandlerFunc(fetchHandler))
 	http.Handle("/", r)
@@ -105,6 +106,10 @@ func getImageDimensions(imagePath string) (int, int, error) {
 		return 0, 0, err
 	}
 	return image.Width, image.Height, nil
+}
+
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("gifcitadel"))
 }
 
 func fetchHandler(w http.ResponseWriter, r *http.Request) {
