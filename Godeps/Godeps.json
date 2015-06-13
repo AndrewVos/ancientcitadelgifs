@@ -9,6 +9,11 @@
 		{
 			"ImportPath": "github.com/gorilla/mux",
 			"Rev": "47e8f450ef38c857cdd922ec08862ca9d65a1c6d"
+		},
+		{
+			"ImportPath": "github.com/rlmcpherson/s3gof3r",
+			"Comment": "v0.4.10-9-g78d498d",
+			"Rev": "78d498d683a00ec62122b89ea3be6baca228b60e"
 		}
 	]
 }
