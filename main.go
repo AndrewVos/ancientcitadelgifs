@@ -265,6 +265,18 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 			serveError(w, err.Error())
 			return
 		}
+
+		err = os.Remove(videoPath)
+		if err != nil {
+			serveError(w, err.Error())
+			return
+		}
+	}
+
+	err = os.Remove(gifPath)
+	if err != nil {
+		serveError(w, err.Error())
+		return
 	}
 
 	mp4Path := strings.TrimSuffix(gifPath, ".gif") + ".mp4"
