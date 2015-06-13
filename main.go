@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/md5"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"image"
@@ -66,6 +67,9 @@ func downloadFile(gifURL string) (string, error) {
 		return "", err
 	}
 	defer response.Body.Close()
+	if response.Header.Get("Content-Type") != "image/gif" {
+		return "", errors.New(fmt.Sprintf("%q is not an image/gif", gifURL))
+	}
 
 	_, err = io.Copy(file, response.Body)
 	if err != nil {
