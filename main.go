@@ -153,49 +153,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 func assetHandler(w http.ResponseWriter, r *http.Request) {
 	asset := mux.Vars(r)["asset"]
-
 	http.Redirect(w, r, "https://s3.amazonaws.com/ancientcitadelgifs/"+asset, http.StatusTemporaryRedirect)
-	return
-
-	contentTypes := map[string]string{
-		".webm": "video/webm",
-		".mp4":  "video/mp4",
-		".jpg":  "image/jpeg",
-	}
-	for e, t := range contentTypes {
-		if strings.HasSuffix(asset, e) {
-			w.Header().Set("Content-Type", t)
-			break
-		}
-	}
-	w.Header().Set("Cache-Control", "max-age=86400")
-
-	keys, err := s3gof3r.EnvKeys()
-	if err != nil {
-		serveError(w, err.Error())
-		return
-	}
-
-	s3 := s3gof3r.New("", keys)
-	bucket := s3.Bucket(bucketName)
-
-	reader, _, err := bucket.GetReader(asset, nil)
-	if err != nil {
-		serveError(w, err.Error())
-		return
-	}
-
-	_, err = io.Copy(w, reader)
-	if err != nil {
-		serveError(w, err.Error())
-		return
-	}
-
-	err = reader.Close()
-	if err != nil {
-		serveError(w, err.Error())
-		return
-	}
 }
 
 func serveError(w http.ResponseWriter, e string) {
