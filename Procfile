@@ -1,1 +1,1 @@
-web: gifcitadel -port=$PORT
+web: ancientcitadelgifs -port=$PORT
