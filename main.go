@@ -245,7 +245,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, extension := range []string{"webm", "mp4", "jpg"} {
-		fmt.Println("converting %q to %v...\n", gifPath, extension)
+		fmt.Printf("converting %q to %v...\n", gifPath, extension)
 
 		videoPath, err := convertFile(gifURL, gifPath, extension)
 		if err != nil {
