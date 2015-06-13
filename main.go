@@ -24,6 +24,7 @@ type JSONError struct {
 type UploadResult struct {
 	MP4URL  string `json:"mp4url"`
 	WEBMURL string `json:"webmurl"`
+	PNGURL  string `json:"pngurl"`
 	Width   int    `json:"width"`
 	Height  int    `json:"height"`
 }
@@ -81,17 +82,30 @@ func convertFile(gifURL string, gifPath string, videoExtension string) (string, 
 		return videoPath, nil
 	}
 
-	o, err := exec.Command(
-		"vendor/ffmpeg-2.7-64bit-static/ffmpeg",
-		"-i", gifPath,
-		"-y",
-		videoPath,
-	).CombinedOutput()
-	if err != nil {
-		fmt.Println(string(o))
-		return "", err
+	if videoExtension == "png" {
+		o, err := exec.Command(
+			"convert",
+			gifPath+"[0]",
+			videoPath,
+		).CombinedOutput()
+		if err != nil {
+			fmt.Println(string(o))
+			return "", err
+		}
+		return videoPath, nil
+	} else {
+		o, err := exec.Command(
+			"vendor/ffmpeg-2.7-64bit-static/ffmpeg",
+			"-i", gifPath,
+			"-y",
+			videoPath,
+		).CombinedOutput()
+		if err != nil {
+			fmt.Println(string(o))
+			return "", err
+		}
+		return videoPath, nil
 	}
-	return videoPath, nil
 }
 
 func getImageDimensions(imagePath string) (int, int, error) {
@@ -120,8 +134,8 @@ func fetchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	videoExtension := r.URL.Query().Get("t")
-	if videoExtension != "webm" && videoExtension != "mp4" {
-		serveError(w, "please choose either mp4 or web extension")
+	if videoExtension != "webm" && videoExtension != "mp4" && videoExtension != "png" {
+		serveError(w, "please choose either mp4, webm, or png extension")
 		return
 	}
 
@@ -177,9 +191,14 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	webmQuery.Set("u", gifURL)
 	webmQuery.Set("t", "webm")
 
+	pngQuery := url.Values{}
+	pngQuery.Set("u", gifURL)
+	pngQuery.Set("t", "png")
+
 	uploadResult := UploadResult{
 		MP4URL:  "/fetch?" + mp4Query.Encode(),
 		WEBMURL: "/fetch?" + webmQuery.Encode(),
+		PNGURL:  "/fetch?" + pngQuery.Encode(),
 		Width:   width,
 		Height:  height,
 	}
