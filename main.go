@@ -192,9 +192,22 @@ func putToS3(path string) error {
 		return err
 	}
 
+	contentTypes := map[string]string{
+		".webm": "video/webm",
+		".mp4":  "video/mp4",
+		".jpg":  "image/jpeg",
+	}
+	header := http.Header{}
+	for e, t := range contentTypes {
+		if strings.HasSuffix(path, e) {
+			header.Set("Content-Type", t)
+			break
+		}
+	}
+
 	s3 := s3gof3r.New("", keys)
 	bucket := s3.Bucket(bucketName)
-	writer, err := bucket.PutWriter(path, nil, nil)
+	writer, err := bucket.PutWriter(path, header, nil)
 	if err != nil {
 		return err
 	}
