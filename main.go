@@ -84,7 +84,6 @@ func convertFile(gifURL string, gifPath string, videoExtension string) (string, 
 	o, err := exec.Command(
 		"vendor/ffmpeg-2.7-64bit-static/ffmpeg",
 		"-i", gifPath,
-		"-pix_fmt", "yuv420p",
 		videoPath,
 	).CombinedOutput()
 	if err != nil {
