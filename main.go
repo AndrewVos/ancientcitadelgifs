@@ -123,7 +123,7 @@ func getImageDimensions(imagePath string) (int, int, error) {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("gifcitadel"))
+	w.Write([]byte("gifs?"))
 }
 
 func fetchHandler(w http.ResponseWriter, r *http.Request) {
@@ -196,9 +196,9 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	pngQuery.Set("t", "png")
 
 	uploadResult := UploadResult{
-		MP4URL:  "/fetch?" + mp4Query.Encode(),
-		WEBMURL: "/fetch?" + webmQuery.Encode(),
-		PNGURL:  "/fetch?" + pngQuery.Encode(),
+		MP4URL:  "gifs.ancientcitadel.com/fetch?" + mp4Query.Encode(),
+		WEBMURL: "gifs.ancientcitadel.com/fetch?" + webmQuery.Encode(),
+		PNGURL:  "gifs.ancientcitadel.com/fetch?" + pngQuery.Encode(),
 		Width:   width,
 		Height:  height,
 	}
