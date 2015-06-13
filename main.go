@@ -106,6 +106,8 @@ func convertFile(gifURL string, gifPath string, videoExtension string) (string, 
 			"vendor/ffmpeg-2.7-64bit-static/ffmpeg",
 			"-i", gifPath,
 			"-y",
+			"-crf", "23",
+			"-b:v", "500K",
 			videoPath,
 		).CombinedOutput()
 		if err != nil {
