@@ -229,6 +229,7 @@ func putToS3(path string) error {
 			break
 		}
 	}
+	header.Set("Cache-Control", "max-age=86400")
 
 	s3 := s3gof3r.New("", keys)
 	bucket := s3.Bucket(bucketName)
