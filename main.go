@@ -196,9 +196,9 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	pngQuery.Set("t", "png")
 
 	uploadResult := UploadResult{
-		MP4URL:  "gifs.ancientcitadel.com/fetch?" + mp4Query.Encode(),
-		WEBMURL: "gifs.ancientcitadel.com/fetch?" + webmQuery.Encode(),
-		PNGURL:  "gifs.ancientcitadel.com/fetch?" + pngQuery.Encode(),
+		MP4URL:  "http://gifs.ancientcitadel.com/fetch?" + mp4Query.Encode(),
+		WEBMURL: "http://gifs.ancientcitadel.com/fetch?" + webmQuery.Encode(),
+		PNGURL:  "http://gifs.ancientcitadel.com/fetch?" + pngQuery.Encode(),
 		Width:   width,
 		Height:  height,
 	}
