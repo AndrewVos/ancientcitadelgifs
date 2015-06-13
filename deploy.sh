@@ -1,5 +1,8 @@
 #!/bin/bash
-
-MACHINES=5
-printf $(seq -s , 1 $MACHINES) |
-    xargs -d ',' -n 1 -P 4 -I{} git push ancientcitadelgifs{} master
+multitail \
+    -z \
+    -cT ansi -l 'git push ancientcitadelgifs1 master' \
+    -cT ansi -l 'git push ancientcitadelgifs2 master' \
+    -cT ansi -l 'git push ancientcitadelgifs3 master' \
+    -cT ansi -l 'git push ancientcitadelgifs4 master' \
+    -cT ansi -l 'git push ancientcitadelgifs5 master'

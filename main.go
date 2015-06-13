@@ -129,6 +129,8 @@ func convertFile(gifURL string, gifPath string, videoExtension string) (string, 
 		}
 		return videoPath, nil
 	}
+
+	return "", nil
 }
 
 func getImageDimensions(imagePath string) (int, int, error) {
