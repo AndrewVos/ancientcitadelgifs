@@ -101,7 +101,20 @@ func convertFile(gifURL string, gifPath string, videoExtension string) (string, 
 			return "", err
 		}
 		return videoPath, nil
-	} else {
+	} else if videoExtension == "webm" {
+		o, err := exec.Command(
+			"vendor/ffmpeg-2.7-64bit-static/ffmpeg",
+			"-i", gifPath,
+			"-y",
+			"-b:v", "5M",
+			videoPath,
+		).CombinedOutput()
+		if err != nil {
+			fmt.Println(string(o))
+			return "", err
+		}
+		return videoPath, nil
+	} else if videoExtension == "mp4" {
 		o, err := exec.Command(
 			"vendor/ffmpeg-2.7-64bit-static/ffmpeg",
 			"-i", gifPath,
