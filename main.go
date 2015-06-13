@@ -214,12 +214,14 @@ func putToS3(path string) error {
 	if err != nil {
 		return err
 	}
+	defer writer.Close()
 
 	_, err = io.Copy(writer, file)
 	if err != nil {
 		return err
 	}
-	return writer.Close()
+
+	return nil
 }
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
