@@ -133,6 +133,9 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 func assetHandler(w http.ResponseWriter, r *http.Request) {
 	asset := mux.Vars(r)["asset"]
 
+	http.Redirect(w, r, "https://s3.amazonaws.com/ancientcitadelgifs/"+asset, http.StatusTemporaryRedirect)
+	return
+
 	contentTypes := map[string]string{
 		".webm": "video/webm",
 		".mp4":  "video/mp4",
