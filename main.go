@@ -168,6 +168,7 @@ func assetHandler(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
+	w.Header().Set("Cache-Control", "max-age=86400")
 
 	keys, err := s3gof3r.EnvKeys()
 	if err != nil {
