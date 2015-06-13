@@ -231,7 +231,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("downloading %q\n...", gifURL)
+	fmt.Printf("downloading %q...\n", gifURL)
 	gifPath, err := downloadFile(gifURL)
 	if err != nil {
 		serveError(w, err.Error())
