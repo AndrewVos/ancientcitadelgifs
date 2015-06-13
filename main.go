@@ -237,6 +237,12 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		serveError(w, err.Error())
 		return
 	}
+	fi, err := os.Stat(gifPath)
+	if err != nil {
+		serveError(w, err.Error())
+		return
+	}
+	fmt.Printf("downloaded %d bytes...\n", fi.Size())
 
 	width, height, err := getImageDimensions(gifPath)
 	if err != nil {
