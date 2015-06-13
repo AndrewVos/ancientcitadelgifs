@@ -28,7 +28,7 @@ type JSONError struct {
 type UploadResult struct {
 	MP4URL  string `json:"mp4url"`
 	WEBMURL string `json:"webmurl"`
-	PNGURL  string `json:"pngurl"`
+	PNGURL  string `json:"jpgurl"`
 	Width   int    `json:"width"`
 	Height  int    `json:"height"`
 }
@@ -86,7 +86,7 @@ func convertFile(gifURL string, gifPath string, videoExtension string) (string, 
 		return videoPath, nil
 	}
 
-	if videoExtension == "png" {
+	if videoExtension == "jpg" {
 		o, err := exec.Command(
 			"convert",
 			gifPath+"[0]",
@@ -136,7 +136,7 @@ func assetHandler(w http.ResponseWriter, r *http.Request) {
 	contentTypes := map[string]string{
 		".webm": "video/webm",
 		".mp4":  "video/mp4",
-		".png":  "image/png",
+		".jpg":  "image/jpeg",
 	}
 	for e, t := range contentTypes {
 		if strings.HasSuffix(asset, e) {
@@ -227,7 +227,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, extension := range []string{"webm", "mp4", "png"} {
+	for _, extension := range []string{"webm", "mp4", "jpg"} {
 		videoPath, err := convertFile(gifURL, gifPath, extension)
 		if err != nil {
 			serveError(w, err.Error())
@@ -245,12 +245,12 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	mp4Path := strings.TrimSuffix(gifPath, ".gif") + ".mp4"
 	webmPath := strings.TrimSuffix(gifPath, ".gif") + ".webm"
-	pngPath := strings.TrimSuffix(gifPath, ".gif") + ".png"
+	jpgPath := strings.TrimSuffix(gifPath, ".gif") + ".jpg"
 
 	uploadResult := UploadResult{
 		MP4URL:  "http://gifs.ancientcitadel.com/" + mp4Path,
 		WEBMURL: "http://gifs.ancientcitadel.com/" + webmPath,
-		PNGURL:  "http://gifs.ancientcitadel.com/" + pngPath,
+		PNGURL:  "http://gifs.ancientcitadel.com/" + jpgPath,
 		Width:   width,
 		Height:  height,
 	}
