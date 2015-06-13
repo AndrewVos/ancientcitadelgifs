@@ -231,6 +231,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("downloading %q\n...", gifURL)
 	gifPath, err := downloadFile(gifURL)
 	if err != nil {
 		serveError(w, err.Error())
@@ -244,14 +245,15 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, extension := range []string{"webm", "mp4", "jpg"} {
+		fmt.Println("converting %q to %v...\n", gifPath, extension)
+
 		videoPath, err := convertFile(gifURL, gifPath, extension)
 		if err != nil {
 			serveError(w, err.Error())
 			return
 		}
 
-		fmt.Printf("uploading %q\n", videoPath)
-
+		fmt.Printf("uploading %q to S3...\n", videoPath)
 		err = putToS3(videoPath)
 		if err != nil {
 			serveError(w, err.Error())
