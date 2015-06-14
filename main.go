@@ -21,6 +21,7 @@ import (
 )
 
 var bucketName = os.Getenv("S3_BUCKET_NAME")
+var bucketHost = os.Getenv("S3_BUCKET_HOST")
 
 type JSONError struct {
 	Error string `json:"error"`
@@ -277,9 +278,9 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	jpgPath := strings.TrimSuffix(gifPath, ".gif") + ".jpg"
 
 	uploadResult := UploadResult{
-		MP4URL:  "http://gifs.ancientcitadel.com/" + mp4Path,
-		WEBMURL: "http://gifs.ancientcitadel.com/" + webmPath,
-		PNGURL:  "http://gifs.ancientcitadel.com/" + jpgPath,
+		MP4URL:  bucketHost + "/" + mp4Path,
+		WEBMURL: bucketHost + "/" + webmPath,
+		PNGURL:  bucketHost + "/" + jpgPath,
 		Width:   width,
 		Height:  height,
 	}
